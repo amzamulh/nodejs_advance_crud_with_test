@@ -1,6 +1,6 @@
 # nodejs_advance_crud_with_test
 
-Welcome to my nodejs crud applications! This project is designed to showcase basic file structure and best practices for Node.js applications.
+Welcome to my nodejs crud applications! This project demonstrates advanced CRUD (Create, Read, Update, Delete) operations using Node.js, including a structured file organization and testing.
 
 ## Description
 - [Introduction](#introduction)
@@ -11,7 +11,9 @@ Welcome to my nodejs crud applications! This project is designed to showcase bas
 - [License](#license)
 
 ## Introduction
-This project serves as a template for organizing Node.js projects. It includes a basic file structure along with explanations for each directory and file.
+This Node.js project serves as a comprehensive example of how to implement advanced CRUD operations in a Node.js application. It covers the full spectrum of CRUD functionalities, including creating, reading, updating, and deleting resources.
+
+The project is structured in a modular way, following best practices for scalability and maintainability. It includes separate modules for API routes, controllers, services, middleware, and models, providing a clear separation of concerns.
 
 ## File Structure
     .
