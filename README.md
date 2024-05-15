@@ -61,12 +61,17 @@ The project is structured in a modular way, following best practices for scalabi
     │   │       │   └── userService.unit.test.js
     │   │       └── integration/
     │   │           └── userService.integration.test.js
+    │   ├── utilities/
+    │   │   └── form/
+    │   │       ├── unit/
+    │   │       │   └── empty.unit.test.js
+    │   │       └── integration/
+    │   │           └── validation.integration.test.js
     │   └── routes/
-    │       └── users/
-    │           ├── unit/
-    │           │   └── userRoute.unit.test.js
-    │           └── integration/
-    │               └── userRoute.integration.test.js
+    │       ├── unit/
+    │       │   └── userRoute.unit.test.js
+    │       └── integration/
+    │           └── userRoute.integration.test.js
     ├── .gitignore
     ├── crud.yaml
     ├── jest.config.ts
