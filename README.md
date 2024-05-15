@@ -35,6 +35,10 @@ The project is structured in a modular way, following best practices for scalabi
     │   │   ├── users/
     │   │   │   └── index.js
     │   │   └── index.js
+    │   ├── utilities/
+    │   │   ├── form/
+    │   │   │   └── index.js
+    │   │   └── index.js
     │   ├── app.js
     │   └── server.js
     ├── tests/
@@ -64,6 +68,7 @@ The project is structured in a modular way, following best practices for scalabi
     │           └── integration/
     │               └── userRoute.integration.test.js
     ├── .gitignore
+    ├── crud.yaml
     ├── jest.config.ts
     ├── LICENSE
     ├── package.json
@@ -101,4 +106,5 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
 

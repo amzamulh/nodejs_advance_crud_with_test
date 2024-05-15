@@ -1,0 +1,502 @@
+openapi: 3.0.1
+info:
+  title: CRUD Oprations
+  version: 1.0.0
+  description: This is our crud oprations system with full validation
+  contact:
+    name: Amzamul
+    url: www.github.com/amzamulh
+    email: amzamulh@gmail.com
+servers:
+  - description: Dev
+    url: http://localhost:3000
+  - description: Prod
+    url: http://localhost:4000
+tags:
+  - name: articles
+    description: Get all Articles Endpoints
+paths:
+  '/api/v1/articles':
+    get:
+      summary: Retrive all articles
+      tags: ['articles']
+      parameters:
+        - $ref: '#/components/parameters/pageQuery'
+        - $ref: '#/components/parameters/limitQuery'
+        - $ref: '#/components/parameters/sortTypeQuery'
+        - $ref: '#/components/parameters/sortKeyQuery'
+        - $ref: '#/components/parameters/searchQuery'
+      responses:
+        '200':
+          description: Get All Articles By Pagination
+          content:
+            'application/json':
+              schema: 
+                type: object 
+                properties:
+                  success:
+                    allOf:
+                      - type: object 
+                        properties:
+                          code:
+                            type: integer
+                            format: int32 
+                            example: 200
+                      - $ref: '#/components/schemas/GetAllDataMessageInfo'
+                  articles:
+                    type: array
+                    items:
+                      allOf:
+                        - type: object
+                        - $ref: '#/components/schemas/Articles'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url 
+                        example: '/api/v1/articles'                
+    post:
+      summary: Create new Articles
+      tags: ['articles']
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Articles'
+      responses:
+        '201':
+          description: Create New Articles
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  success: 
+                    allOf:
+                      - type: object 
+                        properties:
+                          code:
+                            type: integer
+                            format: int32
+                            example: 201
+                      - $ref: '#/components/schemas/SuccessMessageInfo'
+                  articles:
+                    allOf:
+                      - $ref: '#/components/schemas/Articles'
+                     
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: '/api/v1/articles'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500' 
+    put:
+      summary: Update Articles
+      tags: ['articles']
+      parameters:
+        - $ref: '#/components/parameters/pathId'
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                success: 
+                  allOf:
+                    - type: object 
+                      properties:
+                        code:
+                          type: integer
+                          format: int32
+                          example: 200
+                    - $ref: '#/components/schemas/UpdatedMessageInfo'
+                articles:
+                  $ref: '#/components/schemas/Articles'
+                links:
+                  type: object
+                  properties:
+                    self:
+                      type: string
+                      format: url
+                      example: '/api/v1/articles'
+      responses:
+        '200':
+          description: Update Article by ID
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/Articles'
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Delete Article
+      tags: ['articles']
+      parameters:
+        - $ref: '#/components/parameters/pathId'
+      responses:
+        '204':
+          description: Delete Article by Id
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  success:
+                    allOf:
+                      - type: object 
+                        properties: 
+                          code: 
+                            type: integer 
+                            format: int32 
+                            example: 204
+                      - $ref: '#/components/schemas/DeleteMessageInfo'
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: '/api/v1/articles/1'
+  '/api/v1/articles/:id':
+    get: 
+      summary: Retrived Single Article
+      tags: ['articles']
+      parameters:
+        - $ref: '#/components/parameters/pathId'
+      responses:
+        '200':
+          description: Get Single Article
+          content:
+            'application/json':
+              schema: 
+                type: object 
+                properties:
+                  success: 
+                    allOf:
+                      - type: object
+                        properties:
+                          code:
+                            type: integer 
+                            format: int32
+                            example: 200 
+                      - $ref: '#/components/schemas/GetSingleDataMessageInfo'
+                     
+                  article:
+                     $ref: '#/components/schemas/Articles'
+                  links:
+                    type: object 
+                    properties:
+                      self: 
+                        type: string 
+                        format: url 
+                        example: '/api/v1/articles/1'
+        
+                
+components:
+  schemas:
+    GetAllDataMessageInfo:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Ok
+        message:
+          type: string
+          example: Retrived All Data Successfully
+    GetSingleDataMessageInfo:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Ok
+        message:
+          type: string
+          example: Retrived Single Data Successfully
+    SuccessMessageInfo: 
+      type: object
+      properties:
+        type:
+          type: string
+          example: Created
+        message:
+          type: string
+          example: "Created Successfully"
+    UpdatedMessageInfo: 
+      type: object
+      properties:
+        type:
+          type: string
+          example: updated
+        message:
+          type: string
+          example: "Updated Successfully"
+    DeleteMessageInfo:
+      type: object
+      properties:
+        type:
+          type: string
+          example: No content
+        message:
+          type: string
+          example: Deleted Successfully
+    
+    # Pagiaation Schema
+    Pagination:
+      type: object
+      properties:
+        currentPage:
+          type: integer
+          format: int32 
+          example: 2 
+        limit: 
+          type: integer 
+          format: int32 
+          example: 10 
+        totalItmes:
+          type: integer 
+          format: int32 
+          example: 20
+        totalPage: 
+          type: integer 
+          format: int32 
+          example: 5
+        prevPage:
+          type: integer 
+          format: int32 
+          example: 1 
+        nextPage: 
+          type: integer 
+          format: int32 
+          example: 3
+      required: ['currentPage', 'limit', 'totalItmes', 'totalPage', 'prevPage', 'nextPage' ]
+
+    TimeStamps:
+      type: object 
+      properties:
+        createdAt:
+          type: string
+          format: date-time 
+        updatedAt:
+          type: string
+          format: date-time
+      
+    Articles: 
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: '1'
+            title: 
+              type: string
+              example: 'This first Blog'
+            shortDescription:
+              type: string
+              example: 'The Article short descriptions'
+            description:
+              type: string
+              example: 'The log Article long description'
+        - $ref: '#/components/schemas/TimeStamps'
+    
+  responses:
+    '204':
+      description: The server successfully processed the request, and is not returning any content.
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 204
+              errors:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: No Content
+                  message:
+                    type: string
+                    example: There is no content
+    '400':
+      description: The server cannot or will not process the request due to an apparent client error
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 400
+              errors:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: Bad Request
+                  message:
+                    type: string
+                    example: Bad Request
+    '401':
+      description: The request contained valid data and was understood by the server. But specifically for use when authentication is required and has failed or has not yet been provided.
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 401
+              errors:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: Unauthorized
+                  message:
+                    type: string
+                    example: You are not authorized for this request
+    '403':
+      description: The request contained valid data and was understood by the server, but will not fullfil it, if it was currect.
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 403
+              errors:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Data field is required
+    '404':
+      description: The requested resource could not be found but may be available in the futur.
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 404
+              errors:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: Not Found
+                  message:
+                    type: string
+                    example: Data Not Found
+    '500':
+      description: A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.
+      content:
+        'application/json':
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 500
+              errors:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: Internal Server Error
+                  message:
+                    type: string
+                    example: Internal Server Error
+  parameters:
+    pathId:
+      in: query
+      name: id 
+      description: Get By Id 
+      required: true
+      schema:
+        type: integer 
+        format: int32
+        example: 1
+  # Pagination and filtering params
+    pageQuery:
+      in: query
+      name: Page
+      description: Page Limit
+      required: true
+      schema: 
+        type: integer 
+        format: int32 
+        example: 2
+    limitQuery:
+      in: query
+      name: limit
+      description: Page Limit
+      required: true
+      schema: 
+        type: integer 
+        format: int32 
+        example: 10
+    sortTypeQuery:
+      in: query 
+      name: sort_type
+      description: Sort Type Query
+      required: true
+      schema: 
+        type: string 
+        enum: [asc, dsc]
+        example: 'dsc'
+    sortKeyQuery:
+      in: query 
+      name: sort_key 
+      description: Sort Key Query
+      required: true
+      schema: 
+        type: string
+        enum: ['createdAt', 'updatedAt']
+        example: 'updatedAt'
+    searchQuery:
+      in: query
+      name: search
+      description: Search Query
+      required: true
+      schema:
+        type: string
+        example: title
+      
+  
